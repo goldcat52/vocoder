@@ -1,0 +1,49 @@
+Diese Textdatei will versuchen, es einem C, C++, C# oder Java Programmiere zu vereinfachen, Pythoncode zu verstehen.
+
+
+Python ist eine 100% dynamisch typisierte Sprache, d.h. das Variablen niemals zu einem bestimmten typ gebunden sind.
+Dinge wie
+
+> variable = 2
+> variable = "Hallo"
+> variable = 7.3984
+> variable = (2, 3,4 )
+
+sind daher problemlos möglich. Dies gibt dem Programmiere zwar viele vorteilhafte Freiheiten, ist aber an manchen Stellen
+auch viel Fehleranfälliger. Aus diesem Grund gibt es Funktionen wie "assert" und "isinstance", mit denen es möglich ist,
+den Variablentyp auf einer einzigen Zeilen code zu überprüfen und sogar eine eigene Fehlermeldung auszugeben.
+Assert funktioniert folgendermassen:
+
+> assert [bedingung], "Fehlermeldung"
+
+Die Bedingung kann dabei durch irgendetwas ersetzt werden, das als wahr oder falsch interpretiert werden kann.
+"Assert" könnte also zum Beispiel folgendermassen benutzt werden:
+
+> assert 3 == 4, "Fehler: 3 ist nicht gleich 4!"
+"Fehler: 3 ist nicht gleich 4!"
+
+Der Text "Fehler: 3 ist nicht gleich 4!" würde dabei genauso ausgegeben werden, wie jede andere Fehlermeldung auch.
+Um jetzt der Typ einer Variable zu überprüfen, kommt "insinstance" ins Spiel - diese Funktion überprüft nähmlich, ob ein
+gegebenes Objekt eine Instanz von ein oder mehreren Objekten ist. Ein Beispiel:
+
+> isintance(3, int)
+True
+
+> isinstance(4.76, (int, long, float))
+True
+
+> isinstance("Halleluja!", float)
+False
+
+Diese beiden Funktionen kombiniert ergeben eine Möglichkeit, ein Fehler hervorzurufen, wenn eine Variable oder ein
+Funktions-Parameter nicht dem richtigen Typ entspricht:
+
+> def add_two(number):
+>    assert isinstance(number, (float, int, long)), "Parameter \"number\" must be of type float, int or long!"
+>    return number + 2
+
+Natürlich würde der Typ des Parameters bei einer so simplen Funktion niemals überprüft werden - Python würde so oder so
+einen Error herausgeben, wenn es nicht möglich ist, der Zahl zwei zu Addieren. Eigentlich ist das Beispiel sogar
+hervorragend, um zu zeigen, warum die dynamische Typisierung auch vorteile besitzt. Vielleicht hatte der Programmierer
+diese Funktion zwar schon für das Addieren von 2 zu einer Skalaren Zahl vorgesehen - allerdings könnte diese Funktion
+jetzt genauso gut für das Addieren von Zwei zu einem Array verwendet werden.
