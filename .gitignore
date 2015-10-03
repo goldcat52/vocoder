@@ -5,6 +5,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Files from Ableton-live:
+*.asd
+
 # Distribution / packaging
 .Python
 env/
