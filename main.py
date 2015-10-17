@@ -27,13 +27,15 @@ def vocode_audiofiles(filepath_1, filepath_2, num_filters=20, chunk_size=1024):
 
 	result = np.zeros(smaller_signal_length-(smaller_signal_length % chunk_size))
 
-	print wave1.length, wave2.length, len(result)
+	print "Starting to vocode two signals with length %i..." % smaller_signal_length
 
 	vocoder = vc.Vocoder(wave1.framerate, np.hamming, num_filters, chunk_size)
 
 	debug_num_chunks = (len(result)/chunk_size -1)
 	debug_factor = 100.0 / debug_num_chunks
 	for i in range(len(result)/chunk_size -1):
+		# Status update:
+		print "%g%% done, processing chunk no. %i out of %i " % (round(i * debug_factor, 2), i, debug_num_chunks)
 		# Start - und ende des momentanen Chunks berechnen:
 		start, end = i*chunk_size, (i+1)*chunk_size
 		# Modulator- und Carrier-Chunk "herausschneiden":
@@ -41,13 +43,11 @@ def vocode_audiofiles(filepath_1, filepath_2, num_filters=20, chunk_size=1024):
 		carrier = toolset.Wave(wave2.ys[start:end], wave2.framerate)
 		# Vocoder-Effekt auf die beiden Signale Anwenden:
 		result[start:end] = vocoder.vocode(modulator, carrier)
-		# Status-updates ausgeben:
-		print "%g%%,\t precessed chunk no. %i out of %i " % (round(i * debug_factor, 2), i, debug_num_chunks)
 
+	print "~job's done~"
 	return toolset.Wave(result, wave1.framerate)
+nf, cs = 100, 4096
 
-result_wave = vocode_audiofiles("Sounds\\buffalo_raw.wav", "Sounds\\buffalo_synth.wav")
-result_wave.plot()
-pyplot.show()
+result_wave = vocode_audiofiles("Sounds\\buffalo_raw.wav", "Sounds\\buffalo_synth.wav", num_filters=nf, chunk_size=cs)
 result_wave.normalize()
-result_wave.write("vocoded.wav")
+result_wave.write("vocoded_%i_%i.wav" % (nf, cs))
